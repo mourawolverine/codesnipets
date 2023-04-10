@@ -1,13 +1,14 @@
-
-#Helper code to get current date
 class CurrentDate:
-    def __init__(self):
-        now = datetime.datetime.now()
-        self.year = now.year
-        self.month = now.month
-        self.quarter = (now.month - 1) // 3 + 1
-        self.week = (now - datetime.timedelta(days=now.weekday() - 5)).isocalendar()[1]
-        self.today = now.date()
+    def __init__(self, date=None):
+        if date is None:
+            date = datetime.datetime.now().date()
+        date = datetime.datetime.strptime(date, '%Y-%m-%d')
+        self.today = date
+        self.year = date.year
+        self.month = date.month
+        self.quarter = (date.month - 1) // 3 + 1
+        self.week = (date - datetime.timedelta(days=date.weekday() - 5)).isocalendar()[1]
+        self.day_of_week = self.today.strftime("%A")
                 
     def get_property(self, prop):
         if prop == 'year':
@@ -18,5 +19,7 @@ class CurrentDate:
             return self.quarter
         elif prop == 'week':
             return self.week
+        elif prop == 'day_of_week':
+            return self.day_of_week
         else:
             raise ValueError("Invalid property name")
