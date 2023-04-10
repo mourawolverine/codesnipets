@@ -4,6 +4,7 @@ class CurrentDate:
     def __init__(self, date=None):
         if date is None:
             date = datetime.datetime.now().date()
+        date = datetime.datetime.strptime(date, '%Y-%m-%d')
         self.today = date
         self.year = date.year
         self.month = date.month
