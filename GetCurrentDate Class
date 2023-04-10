@@ -1,8 +1,9 @@
+import datetime
+
 class CurrentDate:
     def __init__(self, date=None):
         if date is None:
             date = datetime.datetime.now().date()
-        date = datetime.datetime.strptime(date, '%Y-%m-%d')
         self.today = date
         self.year = date.year
         self.month = date.month
@@ -23,3 +24,27 @@ class CurrentDate:
             return self.day_of_week
         else:
             raise ValueError("Invalid property name")
+
+    def get_prior(self, period_type, num_periods=1):
+        year = self.year
+        if period_type == 'quarter':
+            quarter = self.quarter - num_periods
+            if quarter < 1:
+                year -= 1
+                quarter += 4
+            return {'year': year, 'quarter': quarter}
+        elif period_type == 'month':
+            month = self.month - num_periods
+            if month < 1:
+                year -= 1
+                month += 12
+            return {'year': year, 'month': month}
+        elif period_type == 'week':
+            week = self.week - num_periods
+            if week < 1:
+                year -= 1
+                week += 52
+            return {'year': year, 'week': week}
+        else:
+            raise ValueError("Invalid period type")
+
